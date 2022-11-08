@@ -2,7 +2,9 @@
 import Link from "next/link";
 import { css } from "@emotion/css";
 import Image from "next/image";
-import logoImg from "../public/RaceAssist.svg";
+import jwt_decode from "jwt-decode";
+import nookies from "nookies";
+import { useEffect, useState } from "react";
 
 function Header() {
     return (
@@ -40,34 +42,81 @@ function Header() {
                 <Link href="/horse">
                     <a className={linkBoxStyle}>競走馬</a>
                 </Link>
-                <Link href="/login">
-                    <a className={LoginBoxStyle}>ログイン</a>
-                </Link>
+                <LoginStatus />
             </div>
         </header>
     );
 }
+
+function LoginStatus() {
+    const [token, setToken] = useState<string | null | undefined>(null);
+    useEffect(() => {
+        const cookie = nookies.get()["token"];
+        setToken(cookie);
+    }, []);
+    console.log(token);
+    if (token === null || token === undefined) {
+        return (
+            <Link href="/login">
+                <a className={LoginBoxStyle}>ログイン</a>
+            </Link>
+        );
+    } else {
+        return (
+            <PlayerHead token={token} />
+        );
+    }
+}
+
+function PlayerHead(props: { token: string }) {
+    const decoded = jwt_decode(props.token) as Token;
+    return (
+        <Link href="/my-page">
+            <a className={headStyle}>
+                <Image
+                    src={
+                        "https://crafthead.net/avatar/" +
+                        decoded.uuid +
+                        "/64.png"
+                    }
+                    width="48"
+                    height="48"
+                    alt="logo"
+                />
+            </a>
+        </Link>
+    );
+}
+
+type Token = {
+    username: string;
+    uuid: string;
+};
+
+const headStyle = css({
+    flexBasis: "9%",
+});
 
 const logo = css({
     marginLeft: "10px",
 });
 
 const linkBoxStyle = css({
-    flexBasis: "10%",
     textAlign: "center",
-    padding: "25px",
+    paddingTop: "10px",
+    paddingLeft: "40px",
+    paddingRight: "40px",
     fontSize: "17px",
 });
 
 const LoginBoxStyle = css({
-    flexBasis: "9%",
     textAlign: "center",
+    justifyContent: "center",
     paddingLeft: "25px",
     paddingRight: "25px",
-    paddingTop: "10px",
     paddingBottom: "10px",
-    marginLeft: "30px",
-    marginRight: "50px",
+    paddingTop: "10px",
+    marginLeft: "25px",
     color: "#ffffff",
     borderRadius: "10px",
     fontSize: "17px",
@@ -81,6 +130,7 @@ const header = css({
 });
 
 const linkBox = css({
+    display:"flex",
     marginLeft: "auto",
 });
 

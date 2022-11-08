@@ -15,10 +15,13 @@ import { Copyright } from "@mui/icons-material";
 import { NextPage } from "next";
 import { css } from "@emotion/css";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import nookies from "nookies";
 
 const theme = createTheme();
 
 const Login: NextPage = () => {
+    const router = useRouter();
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -35,9 +38,15 @@ const Login: NextPage = () => {
 
         if (res.status === 200) {
             const token = ((await res.json()) as Token).token;
-            console.log(token);
+            nookies.set(null, "token", token, {});
+            router.push("/");
         } else {
             const error = await res.text();
+            if (res.status === 504) {
+                alert(
+                    "サーバーが停止しています。 しばらくしてから再度お試しください。"
+                );
+            }
             if (error === "Password is incorrect") {
                 alert("パスワードが違います");
             } else if (error === "This player has never played before") {
