@@ -4,21 +4,17 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
     const { username, password } = req.body;
 
     try {
-        const response = await fetch(
-            process.env.RACEASSIST_API_SERVER_URL + "/login",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username: username,
-                    password: password,
-                }),
-            }
-        );
+        const response = await fetch(process.env.RACEASSIST_API_SERVER_URL + "/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        });
         const status = response.status;
-        console.log("status: " + status);
 
         if (status === 200) {
             const data = await response.json();
@@ -26,11 +22,8 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
         } else {
             const data = await response.text();
             res.status(status).send(data);
-            console.log("data: " + data);
         }
-        
     } catch (error) {
-        console.log(error);
         res.status(504).send(error);
     }
 };

@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { css } from "@emotion/css";
 
 function Footer() {
     return (
