@@ -1,22 +1,16 @@
-import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Copyright } from "@mui/icons-material";
 import { NextPage } from "next";
 import { css } from "@emotion/css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import nookies from "nookies";
+import { CookieSerializeOptions } from "next/dist/server/web/types";
+import React from "react";
 
 const theme = createTheme();
 
@@ -33,19 +27,26 @@ const Login: NextPage = () => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ username: username, password: password }),
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
         });
 
         if (res.status === 200) {
             const token = ((await res.json()) as Token).token;
-            nookies.set(null, "token", token, {});
-            router.push("/");
+            const options: CookieSerializeOptions = {
+                maxAge: 30 * 24 * 60 * 60,
+                secure: true,
+                path: "/",
+            };
+
+            nookies.set(null, "token", token, options);
+            await router.push("/");
         } else {
             const error = await res.text();
             if (res.status === 504) {
-                alert(
-                    "サーバーが停止しています。 しばらくしてから再度お試しください。"
-                );
+                alert("サーバーが停止しています。 しばらくしてから再度お試しください。");
             }
             if (error === "Password is incorrect") {
                 alert("パスワードが違います");
@@ -72,22 +73,12 @@ const Login: NextPage = () => {
                         }}
                     >
                         <a className={logo}>
-                            <Image
-                                src="/RaceAssist.svg"
-                                width="195"
-                                height="26"
-                                alt="logo"
-                            />
+                            <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
                         </a>
                         <Typography component="h1" variant="h5">
                             ログイン
                         </Typography>
-                        <Box
-                            component="form"
-                            onSubmit={handleSubmit}
-                            noValidate
-                            sx={{ mt: 1 }}
-                        >
+                        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
                                 required
@@ -112,7 +103,10 @@ const Login: NextPage = () => {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
+                                sx={{
+                                    mt: 3,
+                                    mb: 2,
+                                }}
                             >
                                 ログイン
                             </Button>
