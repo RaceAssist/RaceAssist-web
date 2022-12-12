@@ -6,6 +6,7 @@ import store from "../src/store";
 import Theme from "../components/Theme";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { Analytics } from "@vercel/analytics/react";
 
 function MyApp({ Component, pageProps }: AppProps) {
     const persistedStore = persistStore(store);
@@ -15,6 +16,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <PersistGate loading={null} persistor={persistedStore}>
                 <Theme>
                     <Component {...pageProps} />
+                    <Analytics />
                 </Theme>
             </PersistGate>
         </Provider>
