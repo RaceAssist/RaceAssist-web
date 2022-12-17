@@ -1,4 +1,4 @@
-import { GetStaticProps, NextPage } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
@@ -54,7 +54,12 @@ function HorseCard(props: { data: HorseData }) {
     let imageUrl = "/horse/" + data.color + "-" + data.style + ".webp";
     return (
         <div className={boxStyle}>
-            <Card sx={{ maxWidth: 400 }}>
+            <Card
+                sx={{
+                    maxWidth: 400, // circle around the edge
+                    borderRadius: "10%",
+                }}
+            >
                 <CardActionArea href={"/horse/" + data.horse}>
                     <CardMedia
                         className={mediaStyle}
@@ -104,7 +109,7 @@ Number.prototype.toRound = function (base: Number) {
     return Math.floor(this.valueOf() * Math.pow(10, base.valueOf())) / Math.pow(10, base.valueOf());
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async (context) => {
     // ファイル名が [id].tsx なので id パラメーターを取り出すことができる
     const res = await fetch(process.env.RACEASSIST_API_WEBHOOK_URL + "/v1/horse/listAll");
     let horseData = (await res.json()) as HorseData[];
