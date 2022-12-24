@@ -118,7 +118,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         props: {
             props: { data: horseData },
         },
-        revalidate: 1800,
+        revalidate: 60,
     };
 };
 
