@@ -7,7 +7,6 @@ import { HorseData } from "../../src/v1/raceResult";
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -16,6 +15,7 @@ import Slider from "@mui/material/Slider";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import Box from "@mui/material/Box";
 import { css } from "@emotion/css";
+import Image from "next/image";
 
 const color = ["BLACK", "BROWN", "CHESTNUT", "CREAMY", "DARK_BROWN", "GRAY", "WHITE"];
 const style = ["BLACK_DOTS", "NONE", "WHITE", "WHITE_DOTS", "WHITEFIELD"];
@@ -241,13 +241,14 @@ function HorseCard(props: { data: HorseData }) {
             >
                 <CardActionArea href={"/horse/" + data.horse}>
                     <CardContent>
-                        <CardMedia
-                            className={mediaStyle}
-                            component="img"
-                            width="200"
-                            image={imageUrl}
+                        <Image
+                            src={imageUrl}
                             alt={data.horse}
+                            className={mediaStyle}
+                            width={200}
+                            height={200 * (100 / 90)}
                         />
+
                         <Typography sx={{ fontSize: 14 }} variant="body1" color="text.secondary">
                             <ul className={playerTypography}>
                                 <li>馬主 : {ownerName}</li>
