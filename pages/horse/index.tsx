@@ -16,7 +16,6 @@ import Slider from "@mui/material/Slider";
 import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
 import Box from "@mui/material/Box";
 import { css } from "@emotion/css";
-import { fontSize } from "@mui/system";
 
 const color = ["BLACK", "BROWN", "CHESTNUT", "CREAMY", "DARK_BROWN", "GRAY", "WHITE"];
 const style = ["BLACK_DOTS", "NONE", "WHITE", "WHITE_DOTS", "WHITEFIELD"];
@@ -259,7 +258,7 @@ function HorseCard(props: { data: HorseData }) {
                                 <li>ランク : {calculateRank(data)}</li>
                                 <li>スピード : {data.speed.toRound(2).toString()}</li>
                                 <li>ジャンプ : {data.jump.toRound(2).toString()}</li>
-                                <li>ステータス : {data.deathData != null ? "生存" : "死亡"}</li>
+                                <li>ステータス : {data.deathData == null ? "生存" : "死亡"}</li>
                             </ul>
                         </Typography>
                     </CardContent>
@@ -343,7 +342,7 @@ async function getUsername(uuid: string | null): Promise<string> {
 function calculateRank(data: HorseData): String {
     const speed = data.speed.valueOf() / 42.162962963;
     const jump = data.jump.valueOf();
-    const jumpRate = Math.floor(jump / 2.0) / 10.0;
+    const jumpRate = Math.floor(jump * 2.0) / (2.0 * 5.0);
     const valMax = 0.3375 * 10 + 1.0;
     const value = speed * 10 + jumpRate;
     const rankString: String[] = [

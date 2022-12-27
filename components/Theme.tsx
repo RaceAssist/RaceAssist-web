@@ -1,4 +1,3 @@
-import { NextPage } from "next";
 import { useSelector } from "react-redux";
 import { RootState } from "../src/rootReducer";
 import CssBaseline from "@mui/material/CssBaseline";
