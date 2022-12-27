@@ -46,12 +46,7 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
                 }}
             >
                 <CardActionArea>
-                    <Image
-                        src={"/horse/" + data.color + "-" + data.style + ".webp"}
-                        alt={data.horse.toString()}
-                        width={500}
-                        height={500}
-                    />
+                    <Image src={imageUrl} alt={data.horse.toString()} width={500} height={500} />
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             Lizard

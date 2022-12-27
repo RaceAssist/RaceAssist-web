@@ -3,12 +3,13 @@ import Document, { DocumentProps, Head, Html, Main, NextScript } from "next/docu
 class MyDocument extends Document<DocumentProps> {
     render(): JSX.Element {
         return (
-            <Html>
+            <Html lang={"ja"}>
                 <Head>
                     <link
                         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap"
                         rel="stylesheet"
                     />
+                    <title>RaceAssist</title>
                 </Head>
                 <body>
                     <Main />
