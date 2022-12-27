@@ -2,11 +2,17 @@ import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { HorseData } from "../../src/raceResult";
+import { HorseData } from "../../src/v1/raceResult";
 import { GetStaticPaths, GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
 import { v4 as UUID } from "uuid";
 import dayjs from "dayjs";
+import { css } from "@emotion/css";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { CardActionArea } from "@mui/material";
+import Image from "next/image";
 
 const Home: React.FC<PageProps> = ({ props }: PageProps) => {
     const [ownerName, setOwnerName] = useState("");
@@ -24,6 +30,7 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
         fetchName().then((r) => r);
     }, [data.breeder, data.owner]);
 
+    let imageUrl = "/horse/" + data.color + "-" + data.style + ".webp";
     return (
         <div className={styles.container}>
             <Head>
@@ -32,6 +39,30 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
                 <link rel="icon" href="/favicon.png" />
             </Head>
             <Navbar />
+            <Card
+                sx={{
+                    maxWidth: 800, // circle around the edge
+                    borderRadius: "10%",
+                }}
+            >
+                <CardActionArea>
+                    <Image
+                        src={"/horse/" + data.color + "-" + data.style + ".webp"}
+                        alt={data.horse.toString()}
+                        width={500}
+                        height={500}
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                            Lizard
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                            Lizards are a widespread group of squamate reptiles, with over 6,000
+                            species, ranging across all continents except Antarctica
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
             color: {data.color} <br />
             breeder: {breederName} <br />
             owner: {ownerName} <br />
@@ -40,6 +71,15 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
         </div>
     );
 };
+const nameStyle = css({
+    textAlign: "center",
+});
+
+const mainBoxStyle = css({});
+
+const horseImage = css({
+    textAlign: "center",
+});
 
 type PathParams = {
     uuid: string;
@@ -74,7 +114,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     return {
         paths,
-        fallback: false,
+        fallback: "blocking",
     };
 };
 
