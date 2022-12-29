@@ -3,12 +3,19 @@ import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { HorseData } from "../../src/v1/raceResult";
+import { HorseData } from "../../src/v1/HorseData";
 import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Collapse, FormControlLabel, IconButton, IconButtonProps, Switch } from "@mui/material";
+import {
+    CardActionArea,
+    Collapse,
+    FormControlLabel,
+    IconButton,
+    IconButtonProps,
+    Switch,
+} from "@mui/material";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import Slider from "@mui/material/Slider";
@@ -346,7 +353,12 @@ function SelectHorseColorOption() {
             defaultValue={[]}
             onChange={(e, v) => setSelectedColor(v)}
             renderInput={(params) => (
-                <TextField {...params} variant="standard" label="カラー" placeholder="カラーを選択" />
+                <TextField
+                    {...params}
+                    variant="standard"
+                    label="カラー"
+                    placeholder="カラーを選択"
+                />
             )}
         />
     );
@@ -364,7 +376,12 @@ function SelectHorseStyleOption() {
             defaultValue={[]}
             onChange={(e, v) => setSelectedStyle(v)}
             renderInput={(params) => (
-                <TextField {...params} variant="standard" label="スタイル" placeholder="スタイルを選択" />
+                <TextField
+                    {...params}
+                    variant="standard"
+                    label="スタイル"
+                    placeholder="スタイルを選択"
+                />
             )}
         />
     );
@@ -507,16 +524,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
     };
 };
 
-async function getUsername(uuid: string | null): Promise<string> {
+export async function getUsername(uuid: string | null): Promise<string> {
     if (uuid == null) {
-        return "なし";
+        return "不明";
     }
     const res = await fetch("https://playerdb.co/api/player/minecraft/" + uuid);
     const data = await res.json();
     return data.data.player.username;
 }
 
-function calculateRank(data: HorseData): String {
+export function calculateRank(data: HorseData): String {
     const speed = data.speed.valueOf() / 42.162962963;
     const jump = data.jump.valueOf();
     const jumpRate = Math.floor(jump * 2.0) / (2.0 * 5.0);

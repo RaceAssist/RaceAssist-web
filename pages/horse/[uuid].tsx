@@ -2,23 +2,50 @@ import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { HorseData } from "../../src/v1/raceResult";
+import { HorseData } from "../../src/v1/HorseData";
 import { GetStaticPaths, GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
-import { v4 as UUID } from "uuid";
 import dayjs from "dayjs";
 import { css } from "@emotion/css";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
 import Image from "next/image";
+import { calculateRank, getUsername } from "./index";
+import { Table, TableBody, TableCell, TableRow } from "@mui/material";
+
+type row = {
+    name: string;
+    value: string;
+};
 
 const Home: React.FC<PageProps> = ({ props }: PageProps) => {
-    const [ownerName, setOwnerName] = useState("");
-    const [breederName, setBreederName] = useState("");
     const data = props.data;
     let name = data.name ?? data.horse.toString();
+
+    return (
+        <div className={styles.container}>
+            <Head>
+                <title>{name}/ RaceAssist</title>
+                <meta name="description" content="RaceAssist-web" />
+                <link rel="icon" href="/favicon.png" />
+            </Head>
+            <Navbar />
+            <div>
+                <HorseCard data={data} />
+            </div>
+            <Footer />
+        </div>
+    );
+};
+
+function MotherHorseCard(props: { uuid: string }) {
+    return <div></div>;
+}
+
+function HorseCard(props: { data: HorseData }) {
+    const data = props.data;
+    const [ownerName, setOwnerName] = useState("");
+    const [breederName, setBreederName] = useState("");
 
     useEffect(() => {
         const fetchName = async () => {
@@ -30,50 +57,117 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
         fetchName().then((r) => r);
     }, [data.breeder, data.owner]);
 
+    const rows: row[] = [
+        {
+            name: "馬主",
+            value: ownerName,
+        },
+        {
+            name: "生産者",
+            value: breederName,
+        },
+        {
+            name: "生年月日",
+            value:
+                data.birthDate == null
+                    ? "不明"
+                    : dayjs(Date.parse(data.birthDate.toString().split("[")[0])).format(
+                          "YYYY/MM/DD HH:mm:ss",
+                      ),
+        },
+        {
+            name: "死亡日",
+            value:
+                data.deathData == null
+                    ? "不明"
+                    : dayjs(Date.parse(data.deathData.toString().split("[")[0])).format(
+                          "YYYY/MM/DD HH:mm:ss",
+                      ),
+        },
+        {
+            name: "スピード",
+            value: data.speed.toRound(2).toString(),
+        },
+        {
+            name: "ジャンプ",
+            value: data.jump.toRound(2).toString(),
+        },
+
+        {
+            name: "ステータス",
+            value: data.deathData == null ? "生存" : "死亡",
+        },
+        {
+            name: "ランク",
+            value: calculateRank(data).toString(),
+        },
+    ];
     let imageUrl = "/horse/" + data.color + "-" + data.style + ".webp";
     return (
-        <div className={styles.container}>
-            <Head>
-                <title>{name}/ RaceAssist</title>
-                <meta name="description" content="RaceAssist-web" />
-                <link rel="icon" href="/favicon.png" />
-            </Head>
-            <Navbar />
-            <Card
+        <Card
+            sx={{
+                maxWidth: 800, // circle around the edge
+                borderRadius: "5%",
+                textAlign: "center",
+            }}
+        >
+            <div className={horseNameStyle}>名前 : {data.name ?? "不明"}</div>
+            <CardContent
                 sx={{
-                    maxWidth: 800, // circle around the edge
-                    borderRadius: "10%",
+                    textAlign: "center",
+                    justifyContent: "center",
                 }}
             >
-                <CardActionArea>
-                    <Image src={imageUrl} alt={data.horse.toString()} width={500} height={500} />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            Lizard
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            Lizards are a widespread group of squamate reptiles, with over 6,000
-                            species, ranging across all continents except Antarctica
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-            </Card>
-            color: {data.color} <br />
-            breeder: {breederName} <br />
-            owner: {ownerName} <br />
-            date : {props.createdData} <br />
-            <Footer />
-        </div>
+                <Image
+                    src={imageUrl}
+                    alt={data.horse}
+                    className={mediaStyle}
+                    width={500}
+                    height={500 * (100 / 90)}
+                />
+                <div>
+                    <Table
+                        sx={{
+                            width: 700,
+                            margin: "auto",
+                            marginTop: "50px",
+                            marginBottom: "30px",
+                        }}
+                        size="small"
+                        aria-label="a dense table"
+                    >
+                        <TableBody>
+                            {rows.map((row) => (
+                                <TableRow key={row.name}>
+                                    <TableCell
+                                        sx={{ fontFamily: "Noto Sans JP" }}
+                                        component="th"
+                                        scope="row"
+                                    >
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell sx={{ fontFamily: "Noto Sans JP" }} align="right">
+                                        {row.value}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            </CardContent>
+        </Card>
     );
-};
-const nameStyle = css({
-    textAlign: "center",
+}
+
+const horseNameStyle = css({
+    fontSize: "24px",
+    margin: "20px",
+    marginLeft: "50px",
+    textAlign: "left",
 });
 
-const mainBoxStyle = css({});
-
-const horseImage = css({
-    textAlign: "center",
+const mediaStyle = css({
+    //中央寄せ
 });
 
 type PathParams = {
@@ -81,19 +175,11 @@ type PathParams = {
 };
 
 type PageProps = {
-    props: { data: HorseData; createdData: string };
+    props: {
+        data: HorseData;
+        createdData: string;
+    };
 };
-
-async function getUsername(uuid: typeof UUID | null): Promise<string> {
-    if (uuid == null) {
-        return "";
-    }
-    const res = await fetch(
-        "https://minecraft-name-api.nikomaru.workers.dev/mojang/v2/user/" + uuid,
-    );
-    const data = await res.json();
-    return data.username;
-}
 
 export const getStaticPaths: GetStaticPaths = async () => {
     const listRes = await fetch(process.env.RACEASSIST_API_WEBHOOK_URL + "/v1/horse/list");
