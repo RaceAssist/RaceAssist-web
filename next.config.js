@@ -9,8 +9,21 @@ const nextConfig = withInterceptStdout(
         images: {
             domains: ["crafthead.net"],
         },
+
     },
     (text) => (text.includes("Duplicate atom key") ? "" : text),
 );
 
-module.exports = nextConfig;
+const rewrites =  async () => {
+    return [
+        {
+            source: '/server-api/:path*',
+            destination: process.env.RACEASSIST_API_SERVER_URL + "/:path*",
+        },
+    ];
+}
+
+module.exports = {
+    nextConfig,
+    rewrites
+};

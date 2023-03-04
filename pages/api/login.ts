@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+
 const login = async (req: NextApiRequest, res: NextApiResponse) => {
     const { username, password } = req.body;
 
@@ -24,7 +25,7 @@ const login = async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(status).send(data);
         }
     } catch (error) {
-        res.status(504).send(error);
+        res.status(500).send("エラーが発生しました");
     }
 };
 

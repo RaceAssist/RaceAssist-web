@@ -9,7 +9,6 @@ class MyDocument extends Document<DocumentProps> {
                         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap"
                         rel="stylesheet"
                     />
-                    <title>RaceAssist</title>
                 </Head>
                 <body>
                     <Main />
