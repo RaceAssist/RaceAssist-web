@@ -1,5 +1,7 @@
-/** @type {import("next").NextConfig} */
-const withInterceptStdout = require("next-intercept-stdout");
+/**
+ * @type {import('next').NextConfig}
+ */
+
 
 const nextConfig = withInterceptStdout(
     {
@@ -9,21 +11,16 @@ const nextConfig = withInterceptStdout(
         images: {
             domains: ["crafthead.net"],
         },
-
+        async rewrites() {
+            return [
+                {
+                    source: '/server-api/:path*',
+                    destination: process.env.RACEASSIST_API_SERVER_URL + "/:path*",
+                },
+            ];
+        }
     },
     (text) => (text.includes("Duplicate atom key") ? "" : text),
 );
 
-const rewrites =  async () => {
-    return [
-        {
-            source: '/server-api/:path*',
-            destination: process.env.RACEASSIST_API_SERVER_URL + "/:path*",
-        },
-    ];
-}
-
-module.exports = {
-    nextConfig,
-    rewrites
-};
+module.exports = nextConfig
