@@ -1,6 +1,5 @@
-/**
- * @type {import('next').NextConfig}
- */
+/** @type {import("next").NextConfig} */
+const withInterceptStdout = require("next-intercept-stdout");
 
 
 const nextConfig = withInterceptStdout(
