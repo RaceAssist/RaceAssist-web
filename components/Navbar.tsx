@@ -1,20 +1,20 @@
 /// <reference types="styled-jsx" />
-import Link                           from "next/link"
-import { css }                        from "@emotion/css"
-import Image                          from "next/image"
-import jwt_decode                     from "jwt-decode"
-import nookies                        from "nookies"
-import React, { useEffect, useState } from "react"
+import Link from "next/link"
+import {css} from "@emotion/css"
+import Image from "next/image"
+import jwt_decode from "jwt-decode"
+import nookies from "nookies"
+import React, {useEffect, useState} from "react"
 
-import { styled }                   from "@mui/system"
+import {styled} from "@mui/system"
 import {Switch, useColorScheme} from "@mui/material"
-import { useDispatch, useSelector } from "react-redux"
-import { setDark, setLight }        from "../src/themeSlice"
-import { RootState }                from "../src/rootReducer"
+import {useDispatch, useSelector} from "react-redux"
+import {setDark, setLight} from "../src/themeSlice"
+import {RootState} from "../src/rootReducer"
 
 function Header() {
     const [checked, setChecked] = React.useState(useSelector((state: RootState) => state.theme.theme) === "dark")
-    const { mode, setMode } = useColorScheme();
+    const {mode, setMode} = useColorScheme();
     const dispatch = useDispatch()
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
@@ -29,9 +29,9 @@ function Header() {
     const label = { inputProps: { "aria-label": "change page theme" } }
     return (<header className={header}>
                 <Link href="/">
-                    <a className={logo}>
+                    <div className={logo}>
                         <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
-                    </a>
+                    </div>
                 </Link>
                 <div className={linkBox}>
                     <MaterialUISwitch
@@ -41,25 +41,25 @@ function Header() {
                             onChange={handleChange}
                     />
                     <Link href="/schedule">
-                        <a className={linkBoxStyle}>日程</a>
+                        <div className={linkBoxStyle}>日程</div>
                     </Link>
                     <Link href="/card">
-                        <a className={linkBoxStyle}>出走馬</a>
+                        <div className={linkBoxStyle}>出走馬</div>
                     </Link>
-                    <Link href="/odds">
-                        <a className={linkBoxStyle}>オッズ</a>
+                    <Link href="/race">
+                        <div className={linkBoxStyle}>レース</div>
+                    </Link>
+                    <Link href="/place">
+                        <div className={linkBoxStyle}>競技場</div>
                     </Link>
                     <Link href="/result">
-                    <a className={linkBoxStyle}>レース結果</a>
-                </Link>
-                <Link href="/refund">
-                    <a className={linkBoxStyle}>払戻金</a>
-                </Link>
-                <Link href="/jockey">
-                    <a className={linkBoxStyle}>騎手データ</a>
-                </Link>
-                <Link href="/horse">
-                    <a className={linkBoxStyle}>競走馬</a>
+                        <div className={linkBoxStyle}>レース結果</div>
+                    </Link>
+                    <Link href="/jockey">
+                        <div className={linkBoxStyle}>騎手データ</div>
+                    </Link>
+                    <Link href="/horse">
+                        <div className={linkBoxStyle}>競走馬</div>
                 </Link>
                 <LoginStatus />
             </div>
@@ -76,7 +76,7 @@ function LoginStatus() {
     if (token === null || token === undefined) {
         return (
             <Link href="/login">
-                <a className={LoginBoxStyle}>ログイン</a>
+                <div className={LoginBoxStyle}>ログイン</div>
             </Link>
         );
     } else {
@@ -88,15 +88,16 @@ function PlayerHead(props: { token: string }) {
     const decoded = jwt_decode(props.token) as Token;
     return (
         <Link href="/my-page">
-            <a className={headStyle}>
+            <div className={headStyle}>
                 <Image
                     className={headImage}
                     src={"https://crafthead.net/avatar/" + decoded.uuid + "/64.png"}
                     width="45"
                     height="45"
                     alt="logo"
+                    placeholder="blur"
                 />
-            </a>
+            </div>
         </Link>
     );
 }

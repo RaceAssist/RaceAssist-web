@@ -1,6 +1,5 @@
 import Link from "next/link";
-import {css} from "@emotion/css";
-import {useTheme} from "@mui/material";
+import { css } from "@emotion/css";
 
 
 function Footer() {
@@ -20,7 +19,7 @@ const footerStyle = css({
     height: 100, margin: "0 calc(50% - 50vw)", width: "100vw" , backgroundColor : "var(--mui-palette-custom-footer)" , color : "#ffffff"
 })
 const authorStyle = css({
-    padding: "38px"
+    padding: "38px", whiteSpace: "nowrap"
 })
 
 export default Footer;

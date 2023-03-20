@@ -49,10 +49,10 @@ const Home: React.FC<PageProps> = ({props}: PageProps) => {
 
 function ReturnPreviousPage() {
     return (<Link href={"/horse"}>
-        <a className={returnPreviousPageStyle}>
+        <div className={returnPreviousPageStyle}>
             <ArrowBackIosIcon fontSize="medium"/>
             <p>前のページに戻る</p>
-        </a>
+        </div>
     </Link>)
 }
 
@@ -138,6 +138,7 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
                             className={mediaStyle}
                             width={300}
                             height={300 * (100 / 90)}
+                            placeholder="blur"
                     />
                     <div>
                         <Table
@@ -206,6 +207,7 @@ function HorseNotFound(props: { type: "mother" | "father" }) {
                         className={mediaStyle}
                         width={300}
                         height={300 * (100 / 90)}
+                        placeholder="blur"
                 />
                 <div>
                     <Table
@@ -294,6 +296,7 @@ function HorseCard(props: { data: HorseData }) {
                         className={mediaStyle}
                         width={500}
                         height={500 * (100 / 90)}
+                        placeholder="blur"
                 />
                 <div>
                     <Table

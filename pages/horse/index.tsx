@@ -5,7 +5,6 @@ import Navbar from "../../components/Navbar"
 import Footer from "../../components/Footer"
 import {HorseData} from "../../src/v1/HorseData"
 import React, {useEffect, useState} from "react"
-import Card from "@mui/material/Card"
 import CardContent from "@mui/material/CardContent"
 import Typography from "@mui/material/Typography"
 import {CardActionArea, Collapse, FormControlLabel, IconButton, IconButtonProps, Switch} from "@mui/material"
@@ -20,6 +19,7 @@ import timezone from "dayjs/plugin/timezone"
 import utc from "dayjs/plugin/utc"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import {styled} from "@mui/material/styles"
+import Card from "@mui/material/Card";
 
 dayjs.extend(timezone)
 dayjs.extend(utc)
@@ -273,8 +273,8 @@ function HorseList(props: { list: HorseData[] }) {
             {list
                     .filter((data) => selectedColor.includes(data.color) || selectedColor.length === 0)
                     .filter((data) => selectedStyle.includes(data.style) || selectedStyle.length === 0)
-                    .filter((data) => data.speed >= speedLimit.min && data.speed <= speedLimit.max)
-                    .filter((data) => data.jump >= jumpLimit.min && data.jump <= jumpLimit.max)
+                    .filter((data) => data.speed.valueOf() >= speedLimit.min && data.speed.valueOf() <= speedLimit.max)
+                    .filter((data) => data.jump.valueOf() >= jumpLimit.min && data.jump.valueOf() <= jumpLimit.max)
                     .filter((data) => !alive || data.deathDate == null)
                 .map((data) => {
                     return <HorseCard key={data.horse} data={data} />;

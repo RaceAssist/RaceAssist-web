@@ -8,7 +8,6 @@ import { css } from "@emotion/css";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import nookies from "nookies";
-import { CookieSerializeOptions } from "next/dist/server/web/types";
 import React from "react";
 
 const Login: NextPage = () => {
@@ -32,12 +31,10 @@ const Login: NextPage = () => {
 
         if (res.status === 200) {
             const token = ((await res.json()) as Token).token;
-            const options: CookieSerializeOptions = {
-                maxAge: 30 * 24 * 60 * 60,
-                secure: true,
-                path: "/",
-            };
 
+            const options = {
+                maxAge: 30 * 24 * 60 * 60, secure: true, path: "/",
+            };
             nookies.set(null, "token", token, options);
             await router.push("/");
         } else {
@@ -68,9 +65,9 @@ const Login: NextPage = () => {
                         alignItems: "center",
                     }}
                 >
-                    <a className={logo}>
-                        <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
-                    </a>
+                    <div className={logo}>
+                        <Image src="/RaceAssist.svg" width="195" height="26" alt="logo"/>
+                    </div>
                     <Typography component="h1" variant="h5">
                         ログイン
                     </Typography>

@@ -28,9 +28,7 @@ function RaceBoard() {
     const [raceList, setRaceList] = useState<string []>([])
     useEffect(() => {
         const setList = async (setData: (arg0: string[]) => void) => {
-            const response = await fetch("/server-api/place/list", {
-                mode: 'cors'
-            })
+            const response = await fetch("/server-api/race/list")
             const res: RaceList = await response.json()
             setData(res.data.list);
         }
@@ -63,12 +61,6 @@ function ArticleBoard() {
 }
 
 // type interface
-interface RaceList {
-    data: {
-        list: string[]
-    }
-}
-
 // extend function
 // function
 // recoil

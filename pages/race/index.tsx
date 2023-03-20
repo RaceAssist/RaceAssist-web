@@ -3,6 +3,7 @@ import styles from "../../styles/Home.module.css";
 import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import useSWR from "swr";
 
 const Home: NextPage = () => {
     return (<div className={styles.container}>
@@ -12,15 +13,29 @@ const Home: NextPage = () => {
             <link rel="icon" href="/favicon.png"/>
         </Head>
         <Navbar/>
+        <RaceCard />
         <Footer/>
     </div>);
 };
 
 
 // component
+function RaceCard() {
+    const {data, error} = useSWR<RaceList>(`/server-api/race/list`, fetcher)
+    if (error) return <div>failed to load</div>
+    if (!data) return <div>loading...</div>
+    return (<div>
+        {
+            data.data.list.map((place) => {
+                return <div key={place}>{place}</div>
+            })
+        }
+    </div>);
+}
 // type interface
 // extend function
 // function
+const fetcher = (url: string): Promise<any> => fetch(url).then(res => res.json());
 // recoil
 // selector
 // style
