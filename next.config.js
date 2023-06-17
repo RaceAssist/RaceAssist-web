@@ -8,7 +8,7 @@ const nextConfig = withInterceptStdout(
         swcMinify: true,
         optimizeFonts: true,
         images: {
-            domains: ["crafthead.net"],
+            domains: ["crafthead.net" , "cdn.discordapp.com"],
         },
         async rewrites() {
             return [
