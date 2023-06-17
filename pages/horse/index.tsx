@@ -277,7 +277,7 @@ function HorseList(props: { list: HorseData[] }) {
                     .filter((data) => data.jump.valueOf() >= jumpLimit.min && data.jump.valueOf() <= jumpLimit.max)
                     .filter((data) => !alive || data.deathDate == null)
                 .map((data) => {
-                    return <HorseCard key={data.horse} data={data} />;
+                    return <HorseCard key={data.horse.toString()} data={data} />;
                 })}
         </div>
     );
@@ -310,7 +310,7 @@ function HorseCard(props: { data: HorseData }) {
                     <CardContent>
                         <Image
                             src={imageUrl}
-                            alt={data.horse}
+                            alt={data.horse.toString()}
                             className={mediaStyle}
                             width={200}
                             height={200 * (100 / 90)}
@@ -516,12 +516,12 @@ export const getStaticProps: GetStaticProps = async (context) => {
 };
 
 //global function
-export async function getUsername(uuid: string | null): Promise<string> {
+export async function getUsername(uuid: UUID | null): Promise<string> {
     if (uuid == null) {
         return "不明";
     }
     const cache = await caches.open("username")
-    const requestUrl = `https://playerdb.co/api/player/minecraft/${uuid}`;
+    const requestUrl = `https://playerdb.co/api/player/minecraft/${uuid.toString()}`;
     let cacheData = await cache.match(requestUrl)
     if (!cacheData?.status) {
         await cache.add(requestUrl);

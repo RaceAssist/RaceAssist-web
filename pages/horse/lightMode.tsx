@@ -6,7 +6,7 @@ import Footer from "../../components/Footer";
 import { HorseData, RowHorseData } from "../../src/v1/HorseData";
 import dayjs from "dayjs";
 import { DataGrid, GridColDef, GridValueGetterParams, jaJP } from "@mui/x-data-grid";
-import { getUsername } from "./index";
+import { calculateRank, getUsername } from "./index";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -107,26 +107,6 @@ type PageProps = {
 
 // extend function
 // function
-
-function calculateRank(data: HorseData): String {
-    const speed = data.speed.valueOf() / 42.162962963;
-    const jump = data.jump.valueOf();
-    const jumpRate = Math.floor(jump * 2.0) / (2.0 * 5.0);
-    const valMax = 0.3375 * 10 + 1.0;
-    const value = speed * 10 + jumpRate;
-    const rankString: String[] = ["G", "G", "G", "F", "F", "F", "E", "E", "E", "D", "D", "D", "C", "C+", "C++", "B", "B+", "B++", "A", "A+", "A++", "S", "S+", "S++", "LEGEND",];
-    const rate = (value / valMax) * 2.0 - 1.0;
-    const pt = Math.floor(rate * rankString.length);
-    if (pt >= rankString.length) {
-        return rankString[rankString.length - 1];
-    }
-    if (pt < 0) {
-        return rankString[0];
-    }
-
-    return `${value.toRound(2)} (${rankString[pt]})`;
-}
-
 // recoil
 // selector
 // style

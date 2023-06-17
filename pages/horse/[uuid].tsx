@@ -134,7 +134,7 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
                 >
                     <Image
                             src={imageUrl}
-                            alt={data.horse}
+                            alt={data.horse.toString()}
                             className={mediaStyle}
                             width={300}
                             height={300 * (100 / 90)}
@@ -292,7 +292,7 @@ function HorseCard(props: { data: HorseData }) {
             >
                 <Image
                         src={imageUrl}
-                        alt={data.horse}
+                        alt={data.horse.toString()}
                         className={mediaStyle}
                         width={500}
                         height={500 * (100 / 90)}
