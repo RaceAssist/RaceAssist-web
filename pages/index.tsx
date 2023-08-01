@@ -9,7 +9,6 @@ import Image from "next/image";
 import placeImage from "../public/place.png";
 import raceImage from "../public/race.png";
 import Link from "next/link";
-import place from "./place";
 
 
 const Home: NextPage = () => {
@@ -37,7 +36,7 @@ function RaceBoard() {
     const [raceIdList, setRaceIdList] = useState<string []>([]);
     useEffect(() => {
         const setList = async (setData: (arg0: string[]) => void) => {
-            const response = await fetch("/server-api/race/list");
+            const response = await fetch("server-api/race/list");
             const res: RaceList = await response.json();
             setData(res.data.list);
         };
@@ -68,17 +67,13 @@ function RaceBoard() {
                         count++;
                         if (count < 5) {
                             return < Link key={raceId} href={"/race/" + raceId} className={cardStyle}>
-                                <a>
                                     <Image alt={raceId} src={raceConfig?.get(raceId)?.raceImageUrl ?? raceImage}
                                            className={imageSize} />
                                     {raceConfig?.get(raceId)?.raceName ?? raceId}
-                                </a>
                             </Link>;
                         } else if (count === 5) {
                             return <Link href={"/race"} key={"raceLink"}>
-                                <a>
                                     一覧ページへ
-                                </a>
                             </Link>;
                         }
                     },
@@ -93,7 +88,7 @@ function PlaceBoard() {
     const [placeIdList, setPlaceIdList] = useState<string []>([]);
     useEffect(() => {
         const setList = async (setData: (arg0: string[]) => void) => {
-            const response = await fetch("/server-api/place/list");
+            const response = await fetch("server-api/place/list");
             const res: PlaceList = await response.json();
             setData(res.data.list);
         };
@@ -125,17 +120,13 @@ function PlaceBoard() {
                         count++;
                         if (count < 5) {
                             return <Link key={placeId} href={"/place/" + placeId} className={cardStyle}>
-                                <a>
                                     <Image alt={placeId} src={placeConfig?.get(placeId)?.placeImageUrl ?? placeImage}
                                            className={imageSize} />
                                     {placeConfig?.get(placeId)?.placeName ?? placeId}
-                                </a>
                             </Link>;
                         } else if (count === 5) {
                             return <Link key={"placeLink"} href={"/place/"}>
-                                <a>
                                     もっとみる
-                                </a>
                             </Link>;
                         }
                     },
@@ -164,12 +155,12 @@ function ArticleBoard() {
 // extend function.
 // function
 async function getRaceConfig(name: string): Promise<RaceConfig> {
-    const response = await fetch("/server-api/race/config/" + name);
+    const response = await fetch("server-api/race/config/" + name);
     return (await response!!.json()).data;
 }
 
 async function getPlaceConfig(name: string): Promise<PlaceConfig | null> {
-    const response = await fetch("/server-api/place/config/" + name);
+    const response = await fetch("server-api/place/config/" + name);
     return (await response!!.json()).data;
 }
 
@@ -197,7 +188,7 @@ const cardStyle = css({
     width: "404px",
     height: "265px",
     border: "1px solid var(--mui-palette-custom-card)",
-    borderRadius: "5px",
+    borderRadius: "10px",
     padding: "10px",
     marginLeft: "10px",
     display: "flex",

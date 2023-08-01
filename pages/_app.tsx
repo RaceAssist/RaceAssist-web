@@ -9,6 +9,7 @@ import {PersistGate} from "redux-persist/integration/react"
 import {Analytics} from "@vercel/analytics/react"
 import {RecoilRoot} from "recoil"
 import {Experimental_CssVarsProvider as CssVarsProvider} from '@mui/material/styles';
+import { dark } from "@mui/material/styles/createPalette";
 
 function MyApp({
                    Component, pageProps,
@@ -19,7 +20,7 @@ function MyApp({
         <RecoilRoot>
             <PersistGate loading={null} persistor={persistedStore}>
                 <Theme>
-                    <CssVarsProvider>
+                    <CssVarsProvider defaultMode={'dark'}>
                         <Component {...pageProps} />
                         <Analytics/>
                     </CssVarsProvider>

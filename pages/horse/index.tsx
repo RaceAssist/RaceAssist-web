@@ -303,7 +303,7 @@ function HorseCard(props: { data: HorseData }) {
             <Card
                 sx={{
                     maxWidth: "300", // circle around the edge
-                    borderRadius: "10%",
+                    borderRadius: "10px",
                 }}
             >
                 <CardActionArea href={"/horse/" + data.horse}>

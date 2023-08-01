@@ -22,7 +22,7 @@ const Home: NextPage = () => {
 
 // component
 function PlaceCard() {
-    const { data, error } = useSWR<PlaceList>(`/server-api/place/list`, fetcher);
+    const { data, error } = useSWR<PlaceList>(`server-api/place/list`, fetcher);
     if (error) return <div>failed to load</div>;
     if (!data) return <div>loading...</div>;
     return (<div>

@@ -7,6 +7,23 @@ import {
 
 const customTheme = extendTheme({
     colorSchemes: {
+        dark: {
+            palette: {
+                text: {
+                    primary: "#fff", secondary: "rgba(255, 255, 255, 0.7)", disabled: "rgba(255, 255, 255, 0.5)",
+                }, action: {
+                    active: "#fff",
+                    hover: "rgba(255, 255, 255, 0.08)",
+                    selected: "rgba(255, 255, 255, 0.16)",
+                    disabled: "rgba(255, 255, 255, 0.3)",
+                    disabledBackground: "rgba(255, 255, 255, 0.12)",
+                }, background: {
+                    default: "#121212", paper: "#1f1f1f",
+                }, divider: "rgba(255, 255, 255, 0.12)", custom: {
+                    footer: "#676767", card: "#2b2a2a",
+                },
+            },
+        },
         light: {
             palette: {
                 text: {
@@ -23,22 +40,6 @@ const customTheme = extendTheme({
                     footer: "#0066ff", card: "rgba(245,245,245,0.85)",
                 },
             },
-        }, dark: {
-            palette: {
-                text: {
-                    primary: "#fff", secondary: "rgba(255, 255, 255, 0.7)", disabled: "rgba(255, 255, 255, 0.5)",
-                }, action: {
-                    active: "#fff",
-                    hover: "rgba(255, 255, 255, 0.08)",
-                    selected: "rgba(255, 255, 255, 0.16)",
-                    disabled: "rgba(255, 255, 255, 0.3)",
-                    disabledBackground: "rgba(255, 255, 255, 0.12)",
-                }, background: {
-                    default: "#121212", paper: "#121212",
-                }, divider: "rgba(255, 255, 255, 0.12)", custom: {
-                    footer: "#676767", card: "#2b2a2a",
-                },
-            },
         },
     },
 });
@@ -46,7 +47,7 @@ const customTheme = extendTheme({
 
 export const Theme = ({ children }: { children: ReactNode }) => {
     return (
-        <CssVarsProvider theme={customTheme}>
+        <CssVarsProvider defaultMode={'dark'} theme={customTheme}>
             <CssBaseline />
             {children}
         </CssVarsProvider>);
