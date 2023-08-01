@@ -122,7 +122,7 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
             <Card
                     sx={{
                         maxWidth: 600, // circle around the edge
-                        borderRadius: "5%", textAlign: "center",
+                        borderRadius: "20px", textAlign: "center",
                     }}
             >
                 {type}
@@ -172,7 +172,7 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
 }
 
 function HorseNotFound(props: { type: "mother" | "father" }) {
-    const color = props.type == "mother" ? "#ffbcff30" : "#bcddff30";
+    const color = props.type == "mother" ? "rgba(255,188,255,0.5)" : "rgba(85,160,236,0.5)";
     const type = props.type == "mother" ? "母" : "父";
     const rows: row[] = [{
         name: "馬主", value: "存在しません",
@@ -191,7 +191,7 @@ function HorseNotFound(props: { type: "mother" | "father" }) {
         <Card
                 sx={{
                     maxWidth: 600, // circle around the edge
-                    borderRadius: "5%", textAlign: "center", backgroundColor: color
+                    borderRadius: "20px", textAlign: "center", backgroundColor: color
                 }}
         >
             {type}
@@ -281,7 +281,7 @@ function HorseCard(props: { data: HorseData }) {
         <Card
                 sx={{
                     maxWidth: 800, // circle around the edge
-                    borderRadius: "5%", textAlign: "center",
+                    borderRadius: "20px", textAlign: "center",
                 }}
         >
             <div className={horseNameStyle}>名前 : {data.name ?? "不明"}</div>
