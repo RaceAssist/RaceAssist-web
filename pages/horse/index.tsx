@@ -303,7 +303,7 @@ function HorseCard(props: { data: HorseData }) {
             <Card
                 sx={{
                     maxWidth: "300", // circle around the edge
-                    borderRadius: "10px",
+                    borderRadius: "20px",
                 }}
             >
                 <CardActionArea href={"/horse/" + data.horse}>
@@ -579,6 +579,7 @@ export function calculateRank(data: HorseData): String {
 
     return rankString[pt];
 }
+
 
 
 export default Home;
