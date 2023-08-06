@@ -35,9 +35,9 @@ const customTheme = extendTheme({
                     disabled: "rgba(0, 0, 0, 0.26)",
                     disabledBackground: "rgba(0, 0, 0, 0.12)",
                 }, background: {
-                    default: "#fff", paper: "#fff",
+                    default: "#fff", paper: "rgba(200, 200, 200, 0.85)",
                 }, divider: "rgba(0, 0, 0, 0.12)", custom: {
-                    footer: "#0066ff", card: "rgba(245,245,245,0.85)",
+                    footer: "#0066ff", card: "rgba(200, 200, 200, 0.85)",
                 },
             },
         },

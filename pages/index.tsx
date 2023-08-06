@@ -36,7 +36,7 @@ function RaceBoard() {
     const [raceIdList, setRaceIdList] = useState<string []>([]);
     useEffect(() => {
         const setList = async (setData: (arg0: string[]) => void) => {
-            const response = await fetch("server-api/race/list");
+            const response = await fetch("/server-api/race/list");
             const res: RaceList = await response.json();
             setData(res.data.list);
         };
@@ -68,7 +68,7 @@ function RaceBoard() {
                         if (count < 5) {
                             return < Link key={raceId} href={"/race/" + raceId} className={cardStyle}>
                                     <Image alt={raceId} src={raceConfig?.get(raceId)?.raceImageUrl ?? raceImage}
-                                           className={imageSize} />
+                                           className={imageSize} placeholder="blur" />
                                     {raceConfig?.get(raceId)?.raceName ?? raceId}
                             </Link>;
                         } else if (count === 5) {
@@ -88,7 +88,7 @@ function PlaceBoard() {
     const [placeIdList, setPlaceIdList] = useState<string []>([]);
     useEffect(() => {
         const setList = async (setData: (arg0: string[]) => void) => {
-            const response = await fetch("server-api/place/list");
+            const response = await fetch("/server-api/place/list");
             const res: PlaceList = await response.json();
             setData(res.data.list);
         };
@@ -114,14 +114,14 @@ function PlaceBoard() {
 
     let count = 0;
 
-    return (<div>
+    return (<div className={cardListStyle}>
             {
                 placeIdList.map((placeId) => {
                         count++;
                         if (count < 5) {
                             return <Link key={placeId} href={"/place/" + placeId} className={cardStyle}>
                                     <Image alt={placeId} src={placeConfig?.get(placeId)?.placeImageUrl ?? placeImage}
-                                           className={imageSize} />
+                                           className={imageSize}  placeholder="blur"/>
                                     {placeConfig?.get(placeId)?.placeName ?? placeId}
                             </Link>;
                         } else if (count === 5) {
@@ -155,12 +155,12 @@ function ArticleBoard() {
 // extend function.
 // function
 async function getRaceConfig(name: string): Promise<RaceConfig> {
-    const response = await fetch("server-api/race/config/" + name);
+    const response = await fetch("/server-api/race/config/" + name);
     return (await response!!.json()).data;
 }
 
 async function getPlaceConfig(name: string): Promise<PlaceConfig | null> {
-    const response = await fetch("server-api/place/config/" + name);
+    const response = await fetch("/server-api/place/config/" + name);
     return (await response!!.json()).data;
 }
 
@@ -170,6 +170,7 @@ async function getPlaceConfig(name: string): Promise<PlaceConfig | null> {
 const imageSize = css({
     width: "384px",
     height: "216px",
+    marginBottom: "3px",
 });
 
 const cardListStyle = css({
@@ -179,6 +180,8 @@ const cardListStyle = css({
     alignItems: "center",
     alignContent: "center",
     width: "100%",
+    marginTop: "10px",
+    marginBottom: "20px",
 });
 
 const cardStyle = css({
@@ -188,9 +191,9 @@ const cardStyle = css({
     width: "404px",
     height: "265px",
     border: "1px solid var(--mui-palette-custom-card)",
-    borderRadius: "10px",
+    borderRadius: "20px",
     padding: "10px",
-    marginLeft: "10px",
+    marginRight: "10px",
     display: "flex",
     flexDirection: "column",
     backgroundColor: "var(--mui-palette-custom-card)",
