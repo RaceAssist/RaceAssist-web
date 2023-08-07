@@ -14,16 +14,22 @@ import { calculateRank, getUsername } from "./index";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 type row = {
     name: string; value: string;
 };
 
 const Home: React.FC<PageProps> = ({ props }: PageProps) => {
+    const router = useRouter();
     const data = props.data;
     const fatherData = props.fatherData;
     const motherData = props.motherData;
     let name = data.name ?? data.horse.toString();
+
+    if (router.isFallback) {
+        return <div>loading...</div>;
+    }
 
     return (<div className={styles.container}>
         <Head>
@@ -372,7 +378,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
     });
 
     return {
-        paths, fallback: "blocking",
+        paths, fallback: true,
     };
 };
 
