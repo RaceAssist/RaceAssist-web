@@ -352,7 +352,7 @@ declare global {
 }
 
 Number.prototype.toRound = function (base: Number) {
-    return Math.floor(this.valueOf() * Math.pow(10, base.valueOf())) / Math.pow(10, base.valueOf());
+    return Math.round(this.valueOf() * Math.pow(10, base.valueOf())) / Math.pow(10, base.valueOf());
 };
 
 // function
