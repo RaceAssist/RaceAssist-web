@@ -22,14 +22,13 @@ type row = {
 
 const Home: React.FC<PageProps> = ({ props }: PageProps) => {
     const router = useRouter();
+    if (router.isFallback) {
+        return <div>loading...</div>;
+    }
     const data = props.data;
     const fatherData = props.fatherData;
     const motherData = props.motherData;
     let name = data.name ?? data.horse.toString();
-
-    if (router.isFallback) {
-        return <div>loading...</div>;
-    }
 
     return (<div className={styles.container}>
         <Head>
