@@ -1,4 +1,5 @@
 [![wakatime](https://wakatime.com/badge/user/20699a33-3350-4bf0-8061-c8a996192acf/project/c345c1d8-65fc-4ebb-a314-9a943044f472.svg)](https://wakatime.com/badge/user/20699a33-3350-4bf0-8061-c8a996192acf/project/c345c1d8-65fc-4ebb-a314-9a943044f472)
+
 ## RaceAssist web
 
 This is a [Next.js](https://nextjs.org/) project bootstrapped

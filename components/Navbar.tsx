@@ -1,65 +1,65 @@
-/// <reference types="styled-jsx" />
-import Link from "next/link"
-import {css} from "@emotion/css"
-import Image from "next/image"
-import jwt_decode from "jwt-decode"
-import nookies from "nookies"
-import React, {useEffect, useState} from "react"
+import Link from "next/link";
+import { css } from "@emotion/css";
+import Image from "next/image";
+import { jwtDecode } from "jwt-decode";
+import nookies from "nookies";
+import React, { useEffect, useState } from "react";
 
-import {styled} from "@mui/system"
-import {Switch, useColorScheme} from "@mui/material"
-import {useDispatch, useSelector} from "react-redux"
-import {setDark, setLight} from "../src/themeSlice"
-import {RootState} from "../src/rootReducer"
+import { styled } from "@mui/system";
+import { useColorScheme } from "@mui/material/styles";
+import { useAtom } from "jotai";
+import { themeAtom } from "../src/themeSlice";
+import { Switch } from "@mui/material";
 
 function Header() {
-    const [checked, setChecked] = React.useState(useSelector((state: RootState) => state.theme.theme) === "dark")
-    const {mode, setMode} = useColorScheme();
-    const dispatch = useDispatch()
+    const [theme, setTheme] = useAtom(themeAtom);
+    const [checked, setChecked] = React.useState(theme === "dark");
+    const { mode, setMode } = useColorScheme();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
-            dispatch(setDark())
-            setMode('dark')
+            setTheme("dark");
+            setMode("dark");
         } else {
-            dispatch(setLight())
-            setMode('light')
+            setTheme("light");
+            setMode("light");
         }
-        setChecked(event.target.checked)
-    }
-    const label = { inputProps: { "aria-label": "change page theme" } }
-    return (<header className={header}>
-                <Link href="/">
-                    <div className={logo}>
-                        <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
-                    </div>
+        setChecked(event.target.checked);
+    };
+    const label = { inputProps: { "aria-label": "change page theme" } };
+    return (
+        <header className={header}>
+            <Link href="/" legacyBehavior>
+                <a className={logo}>
+                    <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
+                </a>
+            </Link>
+            <div className={linkBox}>
+                <MaterialUISwitch
+                    {...label}
+                    className={toggleSwitch}
+                    checked={checked}
+                    onChange={handleChange}
+                />
+                <Link href="/schedule" legacyBehavior>
+                    <a className={linkBoxStyle}>日程</a>
                 </Link>
-                <div className={linkBox}>
-                    <MaterialUISwitch
-                            {...label}
-                            className={toggleSwitch}
-                            checked={checked}
-                            onChange={handleChange}
-                    />
-                    <Link href="/schedule">
-                        <div className={linkBoxStyle}>日程</div>
-                    </Link>
-                    <Link href="/card">
-                        <div className={linkBoxStyle}>出走馬</div>
-                    </Link>
-                    <Link href="/race">
-                        <div className={linkBoxStyle}>レース</div>
-                    </Link>
-                    <Link href="/place">
-                        <div className={linkBoxStyle}>競技場</div>
-                    </Link>
-                    <Link href="/result">
-                        <div className={linkBoxStyle}>レース結果</div>
-                    </Link>
-                    <Link href="/jockey">
-                        <div className={linkBoxStyle}>騎手データ</div>
-                    </Link>
-                    <Link href="/horse">
-                        <div className={linkBoxStyle}>競走馬</div>
+                <Link href="/card" legacyBehavior>
+                    <a className={linkBoxStyle}>出走馬</a>
+                </Link>
+                <Link href="/race" legacyBehavior>
+                    <a className={linkBoxStyle}>レース</a>
+                </Link>
+                <Link href="/place" legacyBehavior>
+                    <a className={linkBoxStyle}>競技場</a>
+                </Link>
+                <Link href="/result" legacyBehavior>
+                    <a className={linkBoxStyle}>レース結果</a>
+                </Link>
+                <Link href="/jockey" legacyBehavior>
+                    <a className={linkBoxStyle}>騎手データ</a>
+                </Link>
+                <Link href="/horse" legacyBehavior>
+                    <a className={linkBoxStyle}>競走馬</a>
                 </Link>
                 <LoginStatus />
             </div>
@@ -75,7 +75,7 @@ function LoginStatus() {
     }, []);
     if (token === null || token === undefined) {
         return (
-            <Link href="/login">
+            <Link href="/login" legacyBehavior>
                 <div className={LoginBoxStyle}>ログイン</div>
             </Link>
         );
@@ -85,9 +85,9 @@ function LoginStatus() {
 }
 
 function PlayerHead(props: { token: string }) {
-    const decoded = jwt_decode(props.token) as Token;
+    const decoded = jwtDecode(props.token) as Token;
     return (
-        <Link href="/my-page">
+        <Link href="/my-page" legacyBehavior>
             <div className={headStyle}>
                 <Image
                     className={headImage}
@@ -95,7 +95,6 @@ function PlayerHead(props: { token: string }) {
                     width="45"
                     height="45"
                     alt="logo"
-                    placeholder="blur"
                 />
             </div>
         </Link>
@@ -192,7 +191,7 @@ const LoginBoxStyle = css({
 const header = css({
     display: "flex",
     marginTop: "25px",
-    marginBottom: "40px"
+    marginBottom: "40px",
 });
 
 const linkBox = css({

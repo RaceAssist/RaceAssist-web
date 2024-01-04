@@ -1,4 +1,4 @@
-import { v4 as UUID } from "uuid"
+import { v4 as UUID } from "uuid";
 
 interface HorseData {
     horse: UUID;
@@ -19,8 +19,8 @@ interface HorseData {
 }
 
 interface RowHorseData {
-    id : number
-    rank : string
+    id: number;
+    rank: string;
     horse: UUID;
     breeder: string | null;
     owner: string | null;

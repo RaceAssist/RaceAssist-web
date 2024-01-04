@@ -6,9 +6,10 @@ import Footer from "../../components/Footer";
 import { HorseData, RowHorseData } from "../../src/v1/HorseData";
 import dayjs from "dayjs";
 import { DataGrid, GridColDef, GridValueGetterParams, jaJP } from "@mui/x-data-grid";
-import { calculateRank, getUsername } from "./index";
+import { getUsername } from "./index";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { css } from "@emotion/css";
 
 
 const Home: NextPage<PageProps> = (props: PageProps) => {
@@ -66,7 +67,10 @@ function DataTable(props: { list: HorseData[] }) {
         headerName: "名前",
         width: 130,
         valueGetter: (params: GridValueGetterParams) => `${params.row.name != null ? params.row.name : "不明"} `,
-    }, { field: "rank", headerName: "スコア", width: 130 }, {
+    }, { field: "rank", headerName: "スコア", width: 130,
+        renderCell: (params) =>
+            (<div style={{ color: getRankColor(params.row.rank.match(/\((.*?)\)/)[1]) }}>{params.row.rank}</div>),
+    }, {
         field: "breeder", headerName: "繫殖者", width: 200,
     }, { field: "owner", headerName: "所有者", width: 200 }, {
         field: "color", headerName: "カラー", width: 150,
@@ -76,23 +80,23 @@ function DataTable(props: { list: HorseData[] }) {
         field: "live",
         headerName: "生存",
         width: 130,
-        renderCell: (params) => (<>{params.row.deathDate == null ? <div color={"green"}>生存</div> : <div color={"red"}>死亡</div> }</>),
-        valueGetter: (params: GridValueGetterParams) => `${params.row.deathDate == null ? "生存" : "死亡"} `,
+        renderCell: (params) => (<>{params.row.deathDate == null ? <div style={{ color: "lightgreen" }}>生存</div> :
+            <div style={{ color: "palevioletred" }}>死亡</div>}</>),
     }, {
         field: "link",
         headerName: "リンク",
         width: 300,
-        renderCell: (params) => (<Link href={`/horse/${params.row.horse}`}>{params.row.horse}</Link>),
+        renderCell: (params) => (<Link href={`/horse/${params.row.horse}`} legacyBehavior>{params.row.horse}</Link>),
     }];
 
-    return (<div style={{ height: 631, width: "100%", marginBottom: "50px" }}>
+    let red = css({
+        color: "red",
+    });
+
+    return (<div style={{ width: "100%", marginBottom: "50px" }}>
         <DataGrid
             rows={row}
             columns={columns}
-            initialState={{
-                pagination: { paginationModel: { pageSize: 10 } },
-            }}
-            pageSizeOptions={[10]}
             localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
         />
     </div>);
@@ -144,5 +148,33 @@ export const getStaticProps: GetStaticProps = async (context) => {
         }, revalidate: 60,
     };
 };
+
 // global function
+export function getRankColor(rank: string): string {
+    switch (rank) {
+        case "B":
+        case "B+":
+            return "#5555ff";
+        case "B++":
+            return "#00AAFF";
+        case "A":
+            return "#55ffff";
+        case "A+":
+            return "#55ff55";
+        case "A++":
+            return "#ffff55";
+        case "S":
+            return "#ffaa00";
+        case "S+":
+            return "#ff5555";
+        case "S++":
+            return "#ff55ff";
+        case "LEGEND":
+            return "#ffccff";
+        default:
+            return "black";
+
+    }
+}
+
 export default Home;
