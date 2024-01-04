@@ -3,7 +3,7 @@ import Head from "next/head";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { HorseData } from "../../src/v1/HorseData";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
 import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { css } from "@emotion/css";
@@ -364,28 +364,28 @@ type PathParams = {
 
 type PageProps = {
     props: {
-        data: HorseData; motherData: HorseData | null; fatherData: HorseData | null;
+        data: HorseData; motherData: HorseData | null; fatherData: HorseData | null; lastUpdate: string;
     };
 };
 
-export const getStaticPaths: GetStaticPaths = async () => {
-    const listRes = await fetch(process.env.RACEASSIST_API_WEBHOOK_URL + "/v1/horse/list");
-    const list = (await listRes.json()) as string[];
-    const paths: { params: { uuid: string } }[] = [];
+// export const getStaticPaths: GetStaticPaths = async () => {
+//     const listRes = await fetch(process.env.RACEASSIST_API_WEBHOOK_URL + "/v1/horse/list");
+//     const list = (await listRes.json()) as string[];
+//     const paths: { params: { uuid: string } }[] = [];
+//
+//     list.forEach((uuid) => {
+//         let replacedUniqueId = uuid.replace(".json", "");
+//         paths.push({
+//             params: { uuid: replacedUniqueId },
+//         });
+//     });
+//
+//     return {
+//         paths, fallback: true,
+//     };
+// };
 
-    list.forEach((uuid) => {
-        let replacedUniqueId = uuid.replace(".json", "");
-        paths.push({
-            params: { uuid: replacedUniqueId },
-        });
-    });
-
-    return {
-        paths, fallback: true,
-    };
-};
-
-export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
+export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
     const { uuid } = context.params as PathParams;
 
     const res = await fetch(process.env.RACEASSIST_API_WEBHOOK_URL + "/v1/horse/record/" + uuid + ".json");
@@ -417,9 +417,9 @@ export const getStaticProps: GetStaticProps<PageProps> = async (context) => {
     return {
         props: {
             props: {
-                data: horseData, motherData: motherData, fatherData: fatherData,
+                data: horseData, motherData: motherData, fatherData: fatherData, lastUpdate: new Date().toString(),
             },
-        }, revalidate: 60 * 60,
+        }
     };
 };
 
