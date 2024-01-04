@@ -61,19 +61,28 @@ function RaceBoard() {
 
     let count = 0;
 
-    return (<div className={cardListStyle}>
+    return (
+        <div className={cardListStyle}>
             {
                 raceIdList.map((raceId) => {
                         count++;
                         if (count < 5) {
-                            return < Link key={raceId} href={"/race/" + raceId} className={cardStyle}>
-                                    <Image alt={raceId} src={raceConfig?.get(raceId)?.raceImageUrl ?? raceImage}
-                                           className={imageSize} placeholder="blur" />
-                                    {raceConfig?.get(raceId)?.raceName ?? raceId}
-                            </Link>;
+                            return (
+                                <Link
+                                    key={raceId}
+                                    href={"/race/" + raceId}
+                                    className={cardStyle}
+                                    legacyBehavior>
+                                    <a className={cardStyle}>
+                                        <Image alt={raceId} src={raceConfig?.get(raceId)?.raceImageUrl ?? raceImage}
+                                               className={imageSize} placeholder="blur" />
+                                        {raceConfig?.get(raceId)?.raceName ?? raceId}
+                                    </a>
+                                </Link>
+                            );
                         } else if (count === 5) {
                             return <Link href={"/race"} key={"raceLink"}>
-                                    一覧ページへ
+                                一覧ページへ
                             </Link>;
                         }
                     },
@@ -114,19 +123,28 @@ function PlaceBoard() {
 
     let count = 0;
 
-    return (<div className={cardListStyle}>
+    return (
+        <div className={cardListStyle}>
             {
                 placeIdList.map((placeId) => {
                         count++;
                         if (count < 5) {
-                            return <Link key={placeId} href={"/place/" + placeId} className={cardStyle}>
-                                    <Image alt={placeId} src={placeConfig?.get(placeId)?.placeImageUrl ?? placeImage}
-                                           className={imageSize}  placeholder="blur"/>
-                                    {placeConfig?.get(placeId)?.placeName ?? placeId}
-                            </Link>;
+                            return (
+                                <Link
+                                    key={placeId}
+                                    href={"/place/" + placeId}
+                                    legacyBehavior>
+                                    <a className={cardStyle}>
+                                        <Image alt={placeId}
+                                               src={placeConfig?.get(placeId)?.placeImageUrl ?? placeImage}
+                                               className={imageSize} placeholder="blur" />
+                                        {placeConfig?.get(placeId)?.placeName ?? placeId}
+                                    </a>
+                                </Link>
+                            );
                         } else if (count === 5) {
                             return <Link key={"placeLink"} href={"/place/"}>
-                                    もっとみる
+                                もっとみる
                             </Link>;
                         }
                     },
@@ -191,7 +209,7 @@ const cardStyle = css({
     width: "404px",
     height: "265px",
     border: "1px solid var(--mui-palette-custom-card)",
-    borderRadius: "20px",
+    borderRadius: "10px",
     padding: "10px",
     marginRight: "10px",
     display: "flex",

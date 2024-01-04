@@ -3,15 +3,17 @@ import { css } from "@emotion/css";
 
 
 function Footer() {
-    return (<footer className={footerStyle}>
-        <div className={authorStyle}>
-            Written in 2022 by
-            <Link href="https://github.com/Nlkomaru">
-                {" Nikomaru "}
-            </Link>
-            No right reserved.
-        </div>
-    </footer>);
+    return (
+        <footer className={footerStyle}>
+            <div className={authorStyle}>
+                Written in 2022 by
+                <Link href="https://github.com/Nlkomaru" legacyBehavior>
+                    {" Nikomaru "}
+                </Link>
+                No right reserved.
+            </div>
+        </footer>
+    );
 }
 
 

@@ -31,6 +31,7 @@ function PlaceCard() {
         })}
     </div>);
 }
+
 // type interface
 // extend function
 // function

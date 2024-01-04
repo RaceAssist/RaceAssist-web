@@ -1,22 +1,20 @@
-import Document, { DocumentProps, Head, Html, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from "next/document";
+import { getInitColorSchemeScript } from "@mui/material/styles";
 
-class MyDocument extends Document<DocumentProps> {
-    render(): JSX.Element {
+export default class MyDocument extends Document {
+    render() {
         return (
-            <Html lang={"ja"}>
+            <Html data-color-scheme="light" lang="ja">
                 <Head>
-                    <link
-                        href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap"
-                        rel="stylesheet"
-                    />
+                    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&family=Noto+Sans+JP&display=swap"
+                          rel="stylesheet" />
                 </Head>
                 <body>
-                    <Main />
-                    <NextScript />
+                {getInitColorSchemeScript()}
+                <Main />
+                <NextScript />
                 </body>
             </Html>
         );
     }
 }
-
-export default MyDocument;

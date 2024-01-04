@@ -66,7 +66,7 @@ const Login: NextPage = () => {
                     }}
                 >
                     <div className={logo}>
-                        <Image src="/RaceAssist.svg" width="195" height="26" alt="logo"/>
+                        <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
                     </div>
                     <Typography component="h1" variant="h5">
                         ログイン

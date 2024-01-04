@@ -1,33 +1,23 @@
-import "../styles/globals.css"
-import type {AppProps} from "next/app"
-import React from "react"
-import {Provider} from "react-redux"
-import store from "../src/store"
-import Theme from "../components/Theme"
-import {persistStore} from "redux-persist"
-import {PersistGate} from "redux-persist/integration/react"
-import {Analytics} from "@vercel/analytics/react"
-import {RecoilRoot} from "recoil"
-import {Experimental_CssVarsProvider as CssVarsProvider} from '@mui/material/styles';
-import { dark } from "@mui/material/styles/createPalette";
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import React from "react";
+import Theme from "../components/Theme";
+import { Provider as JotaiProvider } from "jotai";
+
+import { Experimental_CssVarsProvider as CssVarsProvider } from "@mui/material/styles";
 
 function MyApp({
                    Component, pageProps,
                }: AppProps) {
-    const persistedStore = persistStore(store)
-
-    return (<Provider store={store}>
-        <RecoilRoot>
-            <PersistGate loading={null} persistor={persistedStore}>
-                <Theme>
-                    <CssVarsProvider defaultMode={'dark'}>
-                        <Component {...pageProps} />
-                        <Analytics/>
-                    </CssVarsProvider>
-                </Theme>
-            </PersistGate>
-        </RecoilRoot>
-    </Provider>)
+    return (
+        <JotaiProvider>
+            <Theme>
+                <CssVarsProvider defaultMode={"dark"}>
+                    <Component {...pageProps} />
+                </CssVarsProvider>
+            </Theme>
+        </JotaiProvider>
+    );
 }
 
-export default MyApp
+export default MyApp;

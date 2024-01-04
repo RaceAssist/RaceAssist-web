@@ -53,12 +53,14 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
 };
 
 function ReturnPreviousPage() {
-    return (<Link href={"/horse"}>
-        <div className={returnPreviousPageStyle}>
-            <ArrowBackIosIcon fontSize="medium" />
-            <p>前のページに戻る</p>
-        </div>
-    </Link>);
+    return (
+        <Link href={"/horse"} legacyBehavior>
+            <div className={returnPreviousPageStyle}>
+                <ArrowBackIosIcon fontSize="medium" />
+                <p>前のページに戻る</p>
+            </div>
+        </Link>
+    );
 }
 
 const returnPreviousPageStyle = css({
@@ -122,57 +124,60 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
 
     let imageUrl = "/horse/" + data.color + "-" + data.style + ".webp";
 
-    return (<Link href={"/horse/" + data.horse}>
-        <div className={horseCardStyle}>
-            <Card
-                sx={{
-                    maxWidth: 600, // circle around the edge
-                    borderRadius: "20px", textAlign: "center",
-                }}
-            >
-                {type}
-                <div className={horseNameStyle}>名前 : {data.name ?? "不明"}</div>
-                <CardContent
+    return (
+        <Link href={"/horse/" + data.horse} legacyBehavior>
+            <div className={horseCardStyle}>
+                <Card
                     sx={{
-                        textAlign: "center", justifyContent: "center", backgroundColor: color,
+                        maxWidth: 600, // circle around the edge
+                        borderRadius: "20px", textAlign: "center",
                     }}
                 >
-                    <Image
-                        src={imageUrl}
-                        alt={data.horse.toString()}
-                        className={mediaStyle}
-                        width={300}
-                        height={300 * (100 / 90)}
-                        placeholder="blur"
-                    />
-                    <div>
-                        <Table
-                            sx={{
-                                width: 400, margin: "auto", marginTop: "50px", marginBottom: "30px",
-                            }}
-                            size="small"
-                            aria-label="a dense table"
-                        >
-                            <TableBody>
-                                {rows.map((row) => (<TableRow key={row.name}>
-                                    <TableCell
-                                        sx={{ fontFamily: "Noto Sans JP" }}
-                                        component="th"
-                                        scope="row"
-                                    >
-                                        {row.name}
-                                    </TableCell>
-                                    <TableCell sx={{ fontFamily: "Noto Sans JP" }} align="right">
-                                        {row.value}
-                                    </TableCell>
-                                </TableRow>))}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </CardContent>
-            </Card>
-        </div>
-    </Link>);
+                    {type}
+                    <div className={horseNameStyle}>名前 : {data.name ?? "不明"}</div>
+                    <CardContent
+                        sx={{
+                            textAlign: "center", justifyContent: "center", backgroundColor: color,
+                        }}
+                    >
+                        <Image
+                            src={imageUrl}
+                            alt={data.horse.toString()}
+                            className={mediaStyle}
+                            width={300}
+                            height={300 * (100 / 90)}
+                        />
+                        <div>
+                            <Table
+                                sx={{
+                                    width: 400, margin: "auto", marginTop: "50px", marginBottom: "30px",
+                                }}
+                                size="small"
+                                aria-label="a dense table"
+                            >
+                                <TableBody>
+                                    {rows.map((row) => (<TableRow key={row.name}>
+                                        <TableCell
+                                            sx={{ fontFamily: "Noto Sans JP" }}
+                                            component="th"
+                                            scope="row"
+                                        >
+                                            {row.name}
+                                        </TableCell>
+                                        <TableCell
+                                            sx={{ fontFamily: "Noto Sans JP" }}
+                                            align="right">
+                                            {row.value}
+                                        </TableCell>
+                                    </TableRow>))}
+                                </TableBody>
+                            </Table>
+                        </div>
+                    </CardContent>
+                </Card>
+            </div>
+        </Link>
+    );
 
 }
 
@@ -212,7 +217,6 @@ function HorseNotFound(props: { type: "mother" | "father" }) {
                     className={mediaStyle}
                     width={300}
                     height={300 * (100 / 90)}
-                    placeholder="blur"
                 />
                 <div>
                     <Table
@@ -301,7 +305,6 @@ function HorseCard(props: { data: HorseData }) {
                     className={mediaStyle}
                     width={500}
                     height={500 * (100 / 90)}
-                    placeholder="blur"
                 />
                 <div>
                     <Table
@@ -320,7 +323,8 @@ function HorseCard(props: { data: HorseData }) {
                                 >
                                     {row.name}
                                 </TableCell>
-                                <TableCell sx={{ fontFamily: "Noto Sans JP" }} align="right">
+                                <TableCell
+                                    sx={{ fontFamily: "Noto Sans JP" }}align="right">
                                     {row.value}
                                 </TableCell>
                             </TableRow>))}

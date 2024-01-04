@@ -1,7 +1,8 @@
 import CssBaseline from "@mui/material/CssBaseline";
 import React, { ReactNode } from "react";
 import {
-    Experimental_CssVarsProvider as CssVarsProvider, experimental_extendTheme as extendTheme,
+    Experimental_CssVarsProvider as CssVarsProvider,
+    experimental_extendTheme as extendTheme,
 } from "@mui/material/styles";
 
 
@@ -47,7 +48,7 @@ const customTheme = extendTheme({
 
 export const Theme = ({ children }: { children: ReactNode }) => {
     return (
-        <CssVarsProvider defaultMode={'dark'} theme={customTheme}>
+        <CssVarsProvider defaultMode={"dark"} theme={customTheme}>
             <CssBaseline />
             {children}
         </CssVarsProvider>);

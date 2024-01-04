@@ -1,41 +1,42 @@
-import {GetStaticProps, NextPage} from "next"
-import styles from "../../styles/Home.module.css"
-import Head from "next/head"
-import Navbar from "../../components/Navbar"
-import Footer from "../../components/Footer"
-import {HorseData} from "../../src/v1/HorseData"
-import React, {useEffect, useState} from "react"
-import CardContent from "@mui/material/CardContent"
-import Typography from "@mui/material/Typography"
-import {CardActionArea, Collapse, FormControlLabel, IconButton, IconButtonProps, Switch} from "@mui/material"
-import Autocomplete from "@mui/material/Autocomplete"
-import TextField from "@mui/material/TextField"
-import Slider from "@mui/material/Slider"
-import {atom, selector, useRecoilState, useRecoilValue} from "recoil"
-import {css} from "@emotion/css"
-import Image from "next/image"
-import dayjs from "dayjs"
-import timezone from "dayjs/plugin/timezone"
-import utc from "dayjs/plugin/utc"
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import {styled} from "@mui/material/styles"
+import { GetStaticProps, NextPage } from "next";
+import styles from "../../styles/Home.module.css";
+import Head from "next/head";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import { HorseData } from "../../src/v1/HorseData";
+import React, { useEffect, useState } from "react";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import { CardActionArea, Collapse, FormControlLabel, IconButton, IconButtonProps, Switch } from "@mui/material";
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
+import Slider from "@mui/material/Slider";
+import { css } from "@emotion/css";
+import Image from "next/image";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
+import { useAtom } from "jotai";
+import { colorAtom, expandAtom, horseAliveAtom, jumpLimitAtom, speedLimitAtom, styleAtom } from "../../src/atoms";
 
-dayjs.extend(timezone)
-dayjs.extend(utc)
+dayjs.extend(timezone);
+dayjs.extend(utc);
 
-const colorList = ["BLACK", "BROWN", "CHESTNUT", "CREAMY", "DARK_BROWN", "GRAY", "WHITE"]
-const styleList = ["BLACK_DOTS", "NONE", "WHITE", "WHITE_DOTS", "WHITEFIELD"]
-const minDistance = 0.1
+const colorList = ["BLACK", "BROWN", "CHESTNUT", "CREAMY", "DARK_BROWN", "GRAY", "WHITE"];
+const styleList = ["BLACK_DOTS", "NONE", "WHITE", "WHITE_DOTS", "WHITEFIELD"];
+const minDistance = 0.1;
 
 interface ExpandMoreProps extends IconButtonProps {
     expand: boolean;
 }
 
 const ExpandMore = styled((props: ExpandMoreProps) => {
-    const {expand, ...other} = props;
+    const { expand, ...other } = props;
     return <IconButton {...other} />;
-})(({theme, expand}) => ({
+})(({ theme, expand }) => ({
     transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
     marginLeft: "auto",
     transition: theme.transitions.create("transform", {
@@ -45,31 +46,31 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 
 const Home: NextPage<PageProps> = (props: PageProps) => {
     return (<div className={styles.container}>
-                <Head>
-                    <title>horse / RaceAssist</title>
-                    <meta name="description" content="RaceAssist-web"/>
-                    <link rel="icon" href="/favicon.png"/>
-                </Head>
-                <Navbar/>
-                <div className={horseStatusDisplayStyle}>
-                    <FilterComponent/>
-                    <div className={lastUpdateDateStyle}>最終更新日時 : {props.props.lastUpdate}</div>
-                </div>
-                <HorseList list={props.props.data}/>
-                <Footer/>
-            </div>);
+        <Head>
+            <title>horse / RaceAssist</title>
+            <meta name="description" content="RaceAssist-web" />
+            <link rel="icon" href="/favicon.png" />
+        </Head>
+        <Navbar />
+        <div className={horseStatusDisplayStyle}>
+            <FilterComponent />
+            <div className={lastUpdateDateStyle}>最終更新日時 : {props.props.lastUpdate}</div>
+        </div>
+        <HorseList list={props.props.data} />
+        <Footer />
+    </div>);
 };
 
 // component
 function FilterComponent() {
-    const [expandValue, setExpandValue] = useRecoilState(expandSelector);
+    const [expandValue, setExpandValue] = useAtom(expandAtom);
     const handleExpandClick = () => {
         setExpandValue(!expandValue);
     };
     return (<div className={filterStyle}>
-                <ExpandMore
-                        expand={expandValue}
-                        onClick={handleExpandClick}
+            <ExpandMore
+                expand={expandValue}
+                onClick={handleExpandClick}
                 aria-expanded={expandValue}
                 aria-label="show more"
             >
@@ -109,7 +110,7 @@ function FilterComponent() {
 }
 
 function LimitHorseSpeed() {
-    const [speedValue, setSpeedValue] = useRecoilState(speedSelector);
+    const [speedValue, setSpeedValue] = useAtom(speedLimitAtom);
     const handleChange1 = (event: Event, newValue: number | number[], activeThumb: number) => {
         if (!Array.isArray(newValue)) {
             return;
@@ -150,7 +151,7 @@ function LimitHorseSpeed() {
 }
 
 function LimitHorseJump() {
-    const [jumpValue, setJumpValue] = useRecoilState(jumpSelector);
+    const [jumpValue, setJumpValue] = useAtom(jumpLimitAtom);
     const handleChange1 = (event: Event, newValue: number | number[], activeThumb: number) => {
         if (!Array.isArray(newValue)) {
             return;
@@ -190,7 +191,7 @@ function LimitHorseJump() {
 }
 
 function HorseAliveButton() {
-    const [alive, setAlive] = useRecoilState(horseAliveSelector);
+    const [alive, setAlive] = useAtom(horseAliveAtom);
     return (
         <div>
             <FormControlLabel
@@ -216,7 +217,7 @@ function HorseAliveButton() {
 }
 
 function SelectHorseColorOption() {
-    const [, setSelectedColor] = useRecoilState(colorSelector);
+    const [, setSelectedColor] = useAtom(colorAtom);
     return (
         <Autocomplete
             className={skinStyle}
@@ -239,7 +240,7 @@ function SelectHorseColorOption() {
 }
 
 function SelectHorseStyleOption() {
-    const [, setSelectedStyle] = useRecoilState(styleSelector);
+    const [, setSelectedStyle] = useAtom(styleAtom);
     return (
         <Autocomplete
             className={skinStyle}
@@ -263,19 +264,19 @@ function SelectHorseStyleOption() {
 
 function HorseList(props: { list: HorseData[] }) {
     const list = props.list;
-    const speedLimit = useRecoilValue(speed);
-    const jumpLimit = useRecoilValue(jump);
-    const selectedColor = useRecoilValue(color);
-    const selectedStyle = useRecoilValue(style);
-    const alive = useRecoilValue(horseAlive);
+    const [speedLimit, setSpeedValue] = useAtom(speedLimitAtom);
+    const [jumpLimit, setJumpValue] = useAtom(jumpLimitAtom);
+    const [selectedColor, setSelectedColor] = useAtom(colorAtom);
+    const [selectedStyle, setSelectedStyle] = useAtom(styleAtom);
+    const [alive, setAlive] = useAtom(horseAliveAtom);
     return (
         <div className={listStyle}>
             {list
-                    .filter((data) => selectedColor.includes(data.color) || selectedColor.length === 0)
-                    .filter((data) => selectedStyle.includes(data.style) || selectedStyle.length === 0)
-                    .filter((data) => data.speed.valueOf() >= speedLimit.min && data.speed.valueOf() <= speedLimit.max)
-                    .filter((data) => data.jump.valueOf() >= jumpLimit.min && data.jump.valueOf() <= jumpLimit.max)
-                    .filter((data) => !alive || data.deathDate == null)
+                .filter((data) => selectedColor.includes(data.color) || selectedColor.length === 0)
+                .filter((data) => selectedStyle.includes(data.style) || selectedStyle.length === 0)
+                .filter((data) => data.speed.valueOf() >= speedLimit.min && data.speed.valueOf() <= speedLimit.max)
+                .filter((data) => data.jump.valueOf() >= jumpLimit.min && data.jump.valueOf() <= jumpLimit.max)
+                .filter((data) => !alive || data.deathDate == null)
                 .map((data) => {
                     return <HorseCard key={data.horse.toString()} data={data} />;
                 })}
@@ -325,9 +326,9 @@ function HorseCard(props: { data: HorseData }) {
                             <ul className={horseTypography}>
                                 <li>ランク : {calculateRank(data)}</li>
                                 <li>スピード : {data.speed.toRound(2)
-                                        .toString()}</li>
+                                    .toString()}</li>
                                 <li>ジャンプ : {data.jump.toRound(2)
-                                        .toString()}</li>
+                                    .toString()}</li>
                                 <li>ステータス : {data.deathDate == null ? "生存" : "死亡"}</li>
                             </ul>
                         </Typography>
@@ -351,7 +352,7 @@ declare global {
     }
 }
 
-Number.prototype.toRound = function (base: Number) {
+Number.prototype.toRound = function(base: Number) {
     return Math.round(this.valueOf() * Math.pow(10, base.valueOf())) / Math.pow(10, base.valueOf());
 };
 
@@ -364,97 +365,6 @@ function jumpValueText(value: number) {
     return `${value} m`;
 }
 
-// recoil
-const speed = atom({
-    key: "speed", default: {
-        min: 8.0, max: 15.0,
-    },
-})
-
-const jump = atom({
-    key: "jump", default: {
-        min: 2.0, max: 5.5,
-    },
-});
-
-const style = atom<String[]>({
-    key: "style", default: [],
-});
-
-const color = atom<String[]>({
-    key: "color", default: [],
-});
-
-
-const horseAlive = atom({
-    key: "alive", default: false,
-});
-
-
-const expand = atom({
-    key: "expand", default: false,
-});
-
-const pages = atom({
-    key: "pages", default: 1
-})
-
-// selector
-const speedSelector = selector({
-    key: "speedSelector", get: ({get}) => {
-        return get(speed);
-    }, set: ({set}, newValue) => {
-        set(speed, newValue);
-    },
-});
-
-const jumpSelector = selector({
-    key: "jumpSelector", get: ({get}) => {
-        return get(jump);
-    }, set: ({set}, newValue) => {
-        set(jump, newValue);
-    },
-});
-
-const styleSelector = selector({
-    key: "styleSelector", get: ({get}) => {
-        return get(style);
-    }, set: ({set}, newValue) => {
-        set(style, newValue);
-    },
-});
-
-const colorSelector = selector({
-    key: "colorSelector", get: ({get}) => {
-        return get(color);
-    }, set: ({set}, newValue) => {
-        set(color, newValue);
-    },
-});
-
-const horseAliveSelector = selector({
-    key: "aliveSelector", get: ({get}) => {
-        return get(horseAlive);
-    }, set: ({set}, newValue) => {
-        set(horseAlive, newValue);
-    },
-});
-
-const expandSelector = selector({
-    key: "expandSelector", get: ({get}) => {
-        return get(expand);
-    }, set: ({set}, newValue) => {
-        set(expand, newValue);
-    },
-});
-
-const pagesSelector = selector({
-    key: "pagesSelector", get: ({get}) => {
-        return get(pages);
-    }, set: ({set}, newValue) => {
-        set(pages, newValue);
-    },
-})
 
 // style
 const horseStatusDisplayStyle = css({
@@ -520,12 +430,12 @@ export async function getUsername(uuid: UUID | null): Promise<string> {
     if (uuid == null) {
         return "不明";
     }
-    const cache = await caches.open("username")
+    const cache = await caches.open("username");
     const requestUrl = `https://playerdb.co/api/player/minecraft/${uuid.toString()}`;
-    let cacheData = await cache.match(requestUrl)
+    let cacheData = await cache.match(requestUrl);
     if (!cacheData?.status) {
         await cache.add(requestUrl);
-        cacheData = await cache.match(requestUrl)
+        cacheData = await cache.match(requestUrl);
     }
     const data = await cacheData!!.json();
     return data.data.player.username;
@@ -579,7 +489,6 @@ export function calculateRank(data: HorseData): String {
 
     return rankString[pt];
 }
-
 
 
 export default Home;

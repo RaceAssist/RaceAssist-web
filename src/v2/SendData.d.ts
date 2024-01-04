@@ -13,7 +13,6 @@ interface BetConfig {
 }
 
 
-
 interface Rectangle {
     x: number;
     y: number;
@@ -41,7 +40,7 @@ interface PlaceConfig {
     owner: UUID;
     placeId: string;
     placeName: string | null;
-    placeImageUrl : string | null;
+    placeImageUrl: string | null;
     reverse: boolean;
     staff: UUID[];
 }
@@ -55,7 +54,7 @@ interface RaceConfig {
     placeId: string;
     raceId: string;
     raceName: string;
-    raceImageUrl : string | null;
+    raceImageUrl: string | null;
     replacement: { [key: UUID]: string };
     staff: UUID[];
 }
