@@ -28,10 +28,10 @@ function Header() {
     const label = { inputProps: { "aria-label": "change page theme" } };
     return (
         <header className={header}>
-            <Link href="/" legacyBehavior>
-                <a className={logo}>
+            <Link href="/">
+                <div className={logo}>
                     <Image src="/RaceAssist.svg" width="195" height="26" alt="logo" />
-                </a>
+                </div>
             </Link>
             <div className={linkBox}>
                 <MaterialUISwitch
@@ -40,26 +40,26 @@ function Header() {
                     checked={checked}
                     onChange={handleChange}
                 />
-                <Link href="/schedule" legacyBehavior>
-                    <a className={linkBoxStyle}>日程</a>
+                <Link href="/schedule">
+                    <div className={linkBoxStyle}>日程</div>
                 </Link>
-                <Link href="/card" legacyBehavior>
-                    <a className={linkBoxStyle}>出走馬</a>
+                <Link href="/card">
+                    <div className={linkBoxStyle}>出走馬</div>
                 </Link>
-                <Link href="/race" legacyBehavior>
-                    <a className={linkBoxStyle}>レース</a>
+                <Link href="/race">
+                    <div className={linkBoxStyle}>レース</div>
                 </Link>
-                <Link href="/place" legacyBehavior>
-                    <a className={linkBoxStyle}>競技場</a>
+                <Link href="/place">
+                    <div className={linkBoxStyle}>競技場</div>
                 </Link>
-                <Link href="/result" legacyBehavior>
-                    <a className={linkBoxStyle}>レース結果</a>
+                <Link href="/result">
+                    <div className={linkBoxStyle}>レース結果</div>
                 </Link>
-                <Link href="/jockey" legacyBehavior>
-                    <a className={linkBoxStyle}>騎手データ</a>
+                <Link href="/jockey">
+                    <div className={linkBoxStyle}>騎手データ</div>
                 </Link>
-                <Link href="/horse" legacyBehavior>
-                    <a className={linkBoxStyle}>競走馬</a>
+                <Link href="/horse">
+                    <div className={linkBoxStyle}>競走馬</div>
                 </Link>
                 <LoginStatus />
             </div>
@@ -75,7 +75,7 @@ function LoginStatus() {
     }, []);
     if (token === null || token === undefined) {
         return (
-            <Link href="/login" legacyBehavior>
+            <Link href="/login">
                 <div className={LoginBoxStyle}>ログイン</div>
             </Link>
         );
@@ -87,7 +87,7 @@ function LoginStatus() {
 function PlayerHead(props: { token: string }) {
     const decoded = jwtDecode(props.token) as Token;
     return (
-        <Link href="/my-page" legacyBehavior>
+        <Link href="/my-page">
             <div className={headStyle}>
                 <Image
                     className={headImage}

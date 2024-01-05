@@ -54,7 +54,7 @@ const Home: React.FC<PageProps> = ({ props }: PageProps) => {
 
 function ReturnPreviousPage() {
     return (
-        <Link href={"/horse"} legacyBehavior>
+        <Link href={"/horse"} >
             <div className={returnPreviousPageStyle}>
                 <ArrowBackIosIcon fontSize="medium" />
                 <p>前のページに戻る</p>
@@ -125,8 +125,8 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
     let imageUrl = "/horse/" + data.color + "-" + data.style + ".webp";
 
     return (
-        <Link href={"/horse/" + data.horse} legacyBehavior>
-            <div className={horseCardStyle}>
+        <Link href={"/horse/" + data.horse}>
+            <a className={horseCardStyle}>
                 <Card
                     sx={{
                         maxWidth: 600, // circle around the edge
@@ -175,7 +175,7 @@ function ParentsHorseCard(props: { data: HorseData, type: "mother" | "father" })
                         </div>
                     </CardContent>
                 </Card>
-            </div>
+            </a>
         </Link>
     );
 

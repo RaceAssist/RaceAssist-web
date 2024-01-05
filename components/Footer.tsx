@@ -7,8 +7,8 @@ function Footer() {
         <footer className={footerStyle}>
             <div className={authorStyle}>
                 Written in 2022 by
-                <Link href="https://github.com/Nlkomaru" legacyBehavior>
-                    {" Nikomaru "}
+                <Link href="https://github.com/Nlkomaru">
+                    Nikomaru
                 </Link>
                 No right reserved.
             </div>
@@ -25,6 +25,7 @@ const footerStyle = css({
     color: "#ffffff",
     marginTop: "30px",
 });
+
 const authorStyle = css({
     padding: "38px", whiteSpace: "nowrap",
 });
