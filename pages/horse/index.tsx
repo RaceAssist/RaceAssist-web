@@ -329,7 +329,7 @@ function HorseCard(props: { data: HorseData }) {
                                     .toString()}</li>
                                 <li>ジャンプ : {data.jump.toRound(2)
                                     .toString()}</li>
-                                <li>ステータス : {data.deathDate == null ? "生存" : "死亡"}</li>
+                                <li>ステータス : <span style={{ color: data.deathDate == null ? "#019d01" : "#ff8888" }}>{data.deathDate == null ? "生存" : "死亡"}</span></li>
                             </ul>
                         </Typography>
                     </CardContent>
@@ -490,5 +490,6 @@ export function calculateRank(data: HorseData): String {
     return rankString[pt];
 }
 
+//TODO CSR
 
 export default Home;

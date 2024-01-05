@@ -71,13 +71,12 @@ function RaceBoard() {
                                 <Link
                                     key={raceId}
                                     href={"/race/" + raceId}
-                                    className={cardStyle}
-                                    legacyBehavior>
-                                    <a className={cardStyle}>
+                                    className={cardStyle}>
+                                    <div>
                                         <Image alt={raceId} src={raceConfig?.get(raceId)?.raceImageUrl ?? raceImage}
                                                className={imageSize} placeholder="blur" />
                                         {raceConfig?.get(raceId)?.raceName ?? raceId}
-                                    </a>
+                                    </div>
                                 </Link>
                             );
                         } else if (count === 5) {
@@ -133,13 +132,13 @@ function PlaceBoard() {
                                 <Link
                                     key={placeId}
                                     href={"/place/" + placeId}
-                                    legacyBehavior>
-                                    <a className={cardStyle}>
+                                    >
+                                    <div className={cardStyle}>
                                         <Image alt={placeId}
                                                src={placeConfig?.get(placeId)?.placeImageUrl ?? placeImage}
                                                className={imageSize} placeholder="blur" />
                                         {placeConfig?.get(placeId)?.placeName ?? placeId}
-                                    </a>
+                                    </div>
                                 </Link>
                             );
                         } else if (count === 5) {

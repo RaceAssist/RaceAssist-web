@@ -9,6 +9,8 @@ import { DataGrid, GridColDef, GridValueGetterParams, jaJP } from "@mui/x-data-g
 import { getUsername } from "./index";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useColorScheme } from "@mui/material/styles";
+import clsx from "clsx";
 import { css } from "@emotion/css";
 
 
@@ -62,14 +64,31 @@ function DataTable(props: { list: HorseData[] }) {
         });
     });
 
+    const { mode, setMode } = useColorScheme();
+
     const columns: GridColDef[] = [{
         field: "id",
         headerName: "名前",
-        width: 130,
+        width: 200,
         valueGetter: (params: GridValueGetterParams) => `${params.row.name != null ? params.row.name : "不明"} `,
-    }, { field: "rank", headerName: "スコア", width: 130,
+    }, {
+        field: "rank", headerName: "スコア", width: 130,
+        cellClassName: (params) =>
+            clsx(
+                css(
+                    {
+                        backgroundColor: mode === "dark" ? "var(--mui-palette-custom-dark)" : getRankColor(params.row.rank.match(/\((.*?)\)/)[1]),
+                    },
+                ), true)
+        ,
         renderCell: (params) =>
-            (<div style={{ color: getRankColor(params.row.rank.match(/\((.*?)\)/)[1]) }}>{params.row.rank}</div>),
+            (<>
+                {mode === "dark"
+                    ?
+                    <div style={{ color: getRankColor(params.row.rank.match(/\((.*?)\)/)[1]) }}>{params.row.rank}</div>
+                    : <div>{params.row.rank}</div>
+                }
+            </>),
     }, {
         field: "breeder", headerName: "繫殖者", width: 200,
     }, { field: "owner", headerName: "所有者", width: 200 }, {
@@ -80,20 +99,20 @@ function DataTable(props: { list: HorseData[] }) {
         field: "live",
         headerName: "生存",
         width: 130,
-        renderCell: (params) => (<>{params.row.deathDate == null ? <div style={{ color: "lightgreen" }}>生存</div> :
-            <div style={{ color: "palevioletred" }}>死亡</div>}</>),
+        renderCell: (params) => (<>{params.row.deathDate == null ? <div style={{ color: "#019d01" }}>生存</div> :
+            <div style={{ color: "#ef4040" }}>死亡</div>}</>),
     }, {
         field: "link",
         headerName: "リンク",
         width: 300,
-        renderCell: (params) => (<Link href={`/horse/${params.row.horse}`} legacyBehavior>{params.row.horse}</Link>),
+
+        renderCell: (params) => (
+            <Link href={`/horse/${params.row.horse}`} target="_blank"
+                  rel="noopener noreferrer">{params.row.horse}</Link>),
     }];
 
-    let red = css({
-        color: "red",
-    });
 
-    return (<div style={{ width: "100%", marginBottom: "50px" }}>
+    return (<div style={{ width: "100%", marginBottom: "50px", backgroundColor: "var(--mui-palette-custom-card)" }}>
         <DataGrid
             rows={row}
             columns={columns}
